@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:2-jessie
+        name: keyakizaka46.com
+      - image: selenium/standalone-chrome-debug:3.11.0
+        name: nogizaka46.com
+    working_directory: ~/repo
+    steps:
+      - run:
+          command: |
+            sleep 10
+            python -m SimpleHTTPServer 3000 .circleci &
+
+            curl --verbose --max-time 10 http://nogizaka46.com:4444
+            curl --verbose --max-time 10 http://localhost:3000
+            curl --verbose --max-time 10 http://keyakizaka46.com:3000
